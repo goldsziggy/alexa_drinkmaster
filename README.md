@@ -1,5 +1,5 @@
-# alexa_habitrpg
-An Amazon Alexa task for Habitica
+# alexa_circleofdeath
+An Amazon Alexa task for DrinkMaster - Circle of death
 
 ### Setup Development Enviroment
 #### AWS

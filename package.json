@@ -1,0 +1,27 @@
+{
+  "name": "alexa-circle-of-death",
+  "version": "1.0.0",
+  "description": "A Circle of Death  Alexa Skill",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+  },
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "fuzzy": "^0.1.1",
+    "grunt": "^0.4.5",
+    "grunt-aws-lambda": "^0.12.0",
+    "http": "0.0.0",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Zygowicz",
+  "license": "ISC",
+  "bundledDependencies": [
+    "dotenv",
+    "fuzzy"
+  ]
+}

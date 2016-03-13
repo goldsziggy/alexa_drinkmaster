@@ -1,0 +1,34 @@
+{
+  "intents": [
+    {
+      "intent": "GetAllTasks",
+      "slots": [
+        {
+          "name": "type",
+          "type": "TYPE"
+        },
+        {
+          "name": "qualifier",
+          "type": "QUALIFIER"
+        }
+      ]
+    },
+    {
+      "intent": "MarkTask",
+      "slots": [
+        {
+          "name": "task",
+          "type": "CUSTOM_TASK"
+        },
+        {
+          "name": "action",
+          "type": "ACTION"
+        }
+      ]
+    },
+    {
+      "intent": "HelpIntent",
+      "slots": []
+    }
+  ]
+}

@@ -1,28 +1,24 @@
 {
   "intents": [
     {
-      "intent": "GetAllTasks",
+      "intent": "StartGame",
       "slots": [
         {
-          "name": "type",
-          "type": "TYPE"
-        },
-        {
-          "name": "qualifier",
-          "type": "QUALIFIER"
+          "name": "start",
+          "type": "START"
         }
       ]
     },
     {
-      "intent": "MarkTask",
+      "intent": "DrawCard",
+      "slots": []
+    },
+    {
+      "intent": "StartDrinkMaster",
       "slots": [
         {
-          "name": "task",
-          "type": "CUSTOM_TASK"
-        },
-        {
-          "name": "action",
-          "type": "ACTION"
+          "name": "game",
+          "type": "GAMES"
         }
       ]
     },

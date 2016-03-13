@@ -47,7 +47,7 @@
     {
         "card": 10,
         "card_title": "10: Categories",
-        "response": "You drew a ten! Ten is categories, you set the category then the play to the left has 5 seconds to say something within that category.  This goes till someone messes up."
+        "response": "You drew a ten! Ten is categories, you set the category then the player to the left has 5 seconds to say something within that category.  This goes till someone messes up."
     },
     {
         "card": 11,
@@ -64,5 +64,4 @@
         "card_title": "King: Drinking Rule",
         "response": "You drew a King!  King is drinking rule. Set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
     }
-
 ]

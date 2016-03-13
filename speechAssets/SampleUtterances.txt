@@ -1,27 +1,12 @@
-GetAllTasks show
-GetAllTasks show {type}
-GetAllTasks show all {type}
-GetAllTasks show {type} {qualifier}
-GetAllTasks show {qualifier} {type}
-GetAllTasks show all {qualifier} {type}
-GetAllTasks for my {qualifier} {type}
-GetAllTasks for all my {qualifier} {type}
-GetAllTasks for my {type}
-GetAllTasks for all my {type}
-GetAllTasks tell me about my {type}
-GetAllTasks tell me about my {qualifier} {type}
-GetAllTasks what are {type}
-GetAllTasks what are my {type}
-GetAllTasks what are {qualifier} {type}
-GetAllTasks what are my {qualifier} {type}
-GetAllTasks {type}
+StartGame {game} {start} 
+StartGame {start} {game}
+StartGame {game}
+StartDrinkMaster {start}
 
-
-GetAllTasks show all {type}
-
-
-MarkTask {task} {action}
-MarkTask mark {task} {action}
-MarkTask {action} {task}
-MarkTask {action} {task}
-MarkTask that I {action} {task}
+DrawCard next
+DrawCard next card
+DrawCard draw
+DrawCard yes
+DrawCard draw next
+DrawCard draw next card
+HelpIntent help

@@ -1,0 +1,20 @@
+[
+    {
+        "game": "Circle Of Death",
+        "about_text": "Circle of death is a drinking game that closely resembles Kings, where players ask me to draw one card per turn and perform actions based on the card drawn.",
+        "start_instructions": "To start say draw card",
+        "init_function": "startCircleOfDeath"
+    },
+    {
+        "game": "Never Have I Ever",
+        "about_text": "Never have I ever is a game where I will say things I have never done.  Anyone who has done it must take a drink.",
+        "start_instructions": "To start say next",
+        "init_function": "startNeverHaveIEver"
+    },
+    {
+        "game": "Most Likely",
+        "about_text": "Most Likely is a game where I will state a topic.  Players then choose someone at the party who qualifies best.  That person drinks.",
+        "start_instructions": "To start say next topic",
+        "init_function": "startMostLikely"
+    }
+]

@@ -12,7 +12,7 @@ grunt.initConfig({
    },
    lambda_deploy: {
       default: {
-         package: 'HabitRPGAlexaSkill',
+         package: 'DrinkmasterAlexaSkill',
          arn: process.env.AMAZON_LAMBDA_ARN
       }
    },
@@ -21,7 +21,7 @@ grunt.initConfig({
          options: {
             include_files: ['.env']
          },
-         package: 'HabitRPGAlexaSkill'
+         package: 'DrinkmasterAlexaSkill'
       }
    }
 });

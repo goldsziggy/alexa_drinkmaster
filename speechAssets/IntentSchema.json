@@ -6,6 +6,10 @@
         {
           "name": "start",
           "type": "START"
+        },
+        {
+          "name": "game",
+          "type": "GAMES"
         }
       ]
     },
@@ -14,11 +18,15 @@
       "slots": []
     },
     {
+      "intent": "AdvanceGame",
+      "slots": []
+    },
+    {
       "intent": "StartDrinkMaster",
       "slots": [
         {
-          "name": "game",
-          "type": "GAMES"
+          "name": "start",
+          "type": "START"
         }
       ]
     },

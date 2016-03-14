@@ -13,6 +13,7 @@ var http       = require('https')
 var circle_of_death_cards = require('./lib/circle_of_death');
 var games = require('./lib/games');
 var never_have_i_ever_sayings = require('./lib/never_have_i_ever');
+var most_likely_sayings = require('./lib/most_likely');
 
 // Define fuzzy_search_options for HabitTasks and intent-slots
 var fuzzy_game_search_options = {
@@ -34,7 +35,21 @@ global.startCircleOfDeath = function (session){
 
 global.startNeverHaveIEver = function(session){
   session.attributes.game = 'Never Have I Ever';
-  session.attributes.sayings = never_have_i_ever_sayings;
+  var start_index = Math.floor(Math.random()*never_have_i_ever_sayings.length);
+  var arr = []
+  if(start_index > never_have_i_ever_sayings.length - 100 )
+    start_index = start_index - 100;
+  for(var i=0;i < 100; i++){
+    arr.push(never_have_i_ever_sayings[start_index + i]);
+  }
+  session.attributes.sayings = arr;
+  return session;
+}
+
+global.startMostLikely = function(session){
+  session.attributes.game = 'Most Likely';
+  session.attributes.sayings = most_likely_sayings;
+  return session;
 }
 
 
@@ -48,6 +63,15 @@ var drawCard = function(session){
   var card = session.attributes.deck[picked_card];
   session.attributes.current_card = card;
   session.attributes.deck.splice(picked_card, 1);
+  return session;
+}
+
+var pickSaying = function(session){
+  console.log('inside pickSaying');
+  var picked_saying = Math.floor(Math.random()*session.attributes.sayings.length);
+  var saying = session.attributes.sayings[picked_saying];
+  session.attributes.current_saying = saying;
+  session.attributes.sayings.splice(picked_saying, 1);
   return session;
 }
 
@@ -100,8 +124,8 @@ var handleStartGameRequest = function(intent, session, response){
 */
 var handleDrawCardRequest = function(intent, session, response){
   console.log('Inside handleDrawCardRequest');
-  var response_text = 'No deck currently set.  Tell drinkmaster to start and you will be prompted for a game.';
-  var header = 'No game or deck found';
+  var response_text = '';
+  var header = '';
   var appended_response = "  Would you like to draw the next card?";
   switch(session.attributes.game){
     case 'Circle Of Death':
@@ -144,7 +168,7 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
     return element.game;
   }).join(' <break time="0.4s" /> ');
 
-  var response_text = "<speak>Welcome to drink master.  Please tell me what game you would you like to play <break time=\"0.4s\" />" +
+  var response_text = "<speak>Welcome to drink master.  Please tell me what game you would like to play <break time=\"0.4s\" />" +
             game_text +
             ". </speak> ";
   var speech_output = {
@@ -152,26 +176,77 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
       type: AlexaSkill.speechOutputType.SSML
   };
 
-  response.askWithCard(speech_output, "DrinkMaster: Game Selection", speech_output);
+  response.tell(speech_output, speech_output);
   // response.askWithCard(response_text, "DrinkMaster: Game Selection", response_text);
 };
 
-var handleAdvanceGameRequest = function(intent, session, request){
+var handleAdvanceGameRequest = function(intent, session, response){
   console.log('Inside handleAdvanceGameRequest');
 
   switch(session.attributes.game){
     case 'Circle Of Death':
-      handleDrawCardRequest(intent, session, request);
+      handleDrawCardRequest(intent, session, response);
       break;
     case 'Never Have I Ever':
-      handleNextSayingRequest(intent, session, request);
+      handleNextSayingRequest(intent, session, response);
+      break;
+    case 'Most Likely':
+      handleNextSayingRequest(intent, session, response);
       break;
     default:
-
+      response_text = 'Invalid request.  Please ask Drink Master to restart';
+      header = 'Drink Master Error';
+      response.askWithCard(response_text, header, response_text);
+  }
 }
 
-var handleNextSayingRequest = function(intent, session, request){
+var handleRepeatRequest = function(intent, session, response){
+  console.log('Inside handleAdvanceGameRequest');
+  var response_text = '';
+  var header = '';
+  switch(session.attributes.game){
+    case 'Circle Of Death':
+      response_text = session.attributes.current_card.response + ". Would you like to draw the next card?";
+      header = session.attributes.current_card.card_title;
+      break;
+    case 'Never Have I Ever':
+      response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
+      header = "Never Have I Ever";
+      break;
+    case 'Most Likely':
+      response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
+      header = "Most Likely";
+      break;
+    default:
+      response_text = 'Invalid request.  Please ask Drink Master to restart';
+      header = 'Drink Master Error';
+  }
+  response.askWithCard(response_text, header, response_text);
+}
 
+var handleNextSayingRequest = function(intent, session, response){
+  console.log('Inside handleNextSayingRequest');
+  var response_text = '';
+  var header = '';
+
+  switch(session.attributes.game){
+    case 'Never Have I Ever':
+      session = pickSaying(session);
+      response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
+      header = 'Never Have I Ever...';
+      break;
+    case 'Most Likely':
+      session = pickSaying(session);
+      response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
+      header = 'Most Likely...';
+      break;
+    default:
+      response_text = 'Invalid request.  Please ask Drink Master to restart';
+      header = 'Drink Master Error';
+  }
+  console.log(response_text);
+  console.log(header);
+  response.askWithCard(response_text, header, response_text);
 
 }
 
@@ -202,7 +277,7 @@ CircleOfDeath.prototype.eventHandlers.onLaunch = function(launchRequest, session
     return element.game;
   }).join(' <break time="0.4s" /> ');
 
-  var response_text = "<speak>Welcome to drink master.  Please tell me what game you would you like to play <break time=\"0.4s\" /> " +
+  var response_text = "<speak>Welcome to drink master.  Please tell me what game you would like to play <break time=\"0.4s\" /> " +
             game_text +
             ". </speak> ";
   var speech_output = {
@@ -228,12 +303,15 @@ CircleOfDeath.prototype.intentHandlers = {
   StartGame: function(intent, session, response){
     handleStartGameRequest(intent, session, response);
   },
+  Repeat: function(intent, session, response){
+    handleRepeatRequest(intent, session, response);
+  },
   DrawCard: function(intent, session, response){
     handleDrawCardRequest(intent, session, response);
   },
   AdvanceGame: function(intent, session, response){
     handleAdvanceGameRequest(intent, session, response);
-  }
+  },
   StartDrinkMaster: function(intent, session, response){
     handleStartDrinkMasterRequest(intent, session, response);
   },

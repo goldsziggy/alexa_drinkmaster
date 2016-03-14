@@ -3,10 +3,13 @@ StartGame {start} {game}
 StartGame {game}
 StartDrinkMaster {start}
 
-DrawCard next
+AdvanceGame next
+AdvanceGame next one
+AdvanceGame yes
+AdvanceGame ready
+
 DrawCard next card
 DrawCard draw
-DrawCard yes
 DrawCard draw next
 DrawCard draw next card
 HelpIntent help

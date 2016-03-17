@@ -1,7 +1,16 @@
+Repeat repeat
+
+StopGame stop
+StopGame clear
+StopGame no
+
 StartGame {game} {start} 
 StartGame {start} {game}
+StartGame to {start} {game}
 StartGame {game}
+
 StartDrinkMaster {start}
+StartDrinkMaster restart
 
 AdvanceGame next
 AdvanceGame next one
@@ -10,6 +19,10 @@ AdvanceGame ready
 
 DrawCard next card
 DrawCard draw
+DrawCard draw a card
 DrawCard draw next
+DrawCard draw the next one
 DrawCard draw next card
+DrawCard draw the next card
+
 HelpIntent help

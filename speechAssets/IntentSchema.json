@@ -31,6 +31,14 @@
       ]
     },
     {
+      "intent": "Repeat",
+      "slots": []
+    },
+    {
+      "intent": "StopGame",
+      "slots": []
+    },
+    {
       "intent": "HelpIntent",
       "slots": []
     }

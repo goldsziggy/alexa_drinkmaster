@@ -57,6 +57,19 @@ global.startMostLikely = function(session){
 // Begin utlity function section - @todo abstract to it's own file
 //*****************************************************************
 
+/**
+* This function will prepare/clear the session.
+* this is called after each start game request
+*/
+var prepareSession = function(session){
+  console.log('inside clearSession');
+  session.attributes.sayings = [];
+  session.attributes.current_saying = '';
+  session.attributes.deck = [];
+  session.attributes.current_card = {};
+  return session;
+}
+
 var drawCard = function(session){
   console.log('inside drawCard');
   var picked_card = Math.floor(Math.random()*session.attributes.deck.length);
@@ -97,10 +110,12 @@ var handleStartGameRequest = function(intent, session, response){
   var response_text = "Either no game selected or request was not understood. ";
   var header = 'No Game Specified';
 
+
   if(typeof intent.slots.game.value !== 'undefined'){
     var results = fuzzy.filter(intent.slots.game.value, games, fuzzy_game_search_options);
     if(results.length > 0 && results[0].score >= 12){
-      header = results[0].original.game
+      session = prepareSession(session);
+      header = results[0].original.game;
       response_text = "You chose " + results[0].original.game + ". " + results[0].original.about_text;
       response_text += ". " + results[0].original.start_instructions;
       var fn = results[0].original.init_function;
@@ -140,12 +155,12 @@ var handleDrawCardRequest = function(intent, session, response){
         }
         
       } else{
-        response_text = 'No deck found.  Looks like your game might be over.  Please ask DrinkMaster to start.';
+        response_text = 'No deck found.  Looks like your game might be over.  Please ask Drink Master to start.';
         header = 'No deck found.';
       }
       break;
     default:
-      response_text = 'No game currently set.  Please ask DrinkMaster to start.';
+      response_text = 'No game currently set.  Please ask Drink Master to start.';
       header = 'No game found';
   }
   
@@ -175,13 +190,16 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
       speech: response_text,
       type: AlexaSkill.speechOutputType.SSML
   };
-
-  response.tell(speech_output, speech_output);
+  session = prepareSession(session);
+  // response.tell(speech_output, speech_output);
   // response.askWithCard(response_text, "DrinkMaster: Game Selection", response_text);
+  response.askWithCard(speech_output, "DrinkMaster: Game Selection", speech_output);
 };
 
 var handleAdvanceGameRequest = function(intent, session, response){
   console.log('Inside handleAdvanceGameRequest');
+  var response_text = '';
+  var header = '';
 
   switch(session.attributes.game){
     case 'Circle Of Death':
@@ -194,7 +212,7 @@ var handleAdvanceGameRequest = function(intent, session, response){
       handleNextSayingRequest(intent, session, response);
       break;
     default:
-      response_text = 'Invalid request.  Please ask Drink Master to restart';
+      response_text = 'Invalid request.  Please ask Drink Master to start or restart';
       header = 'Drink Master Error';
       response.askWithCard(response_text, header, response_text);
   }
@@ -218,7 +236,7 @@ var handleRepeatRequest = function(intent, session, response){
       header = "Most Likely";
       break;
     default:
-      response_text = 'Invalid request.  Please ask Drink Master to restart';
+      response_text = 'Invalid request.  Please ask Drink Master to start or restart';
       header = 'Drink Master Error';
   }
   response.askWithCard(response_text, header, response_text);
@@ -241,13 +259,20 @@ var handleNextSayingRequest = function(intent, session, response){
       header = 'Most Likely...';
       break;
     default:
-      response_text = 'Invalid request.  Please ask Drink Master to restart';
+      response_text = 'Invalid request.  Please ask Drink Master to start or restart';
       header = 'Drink Master Error';
   }
   console.log(response_text);
   console.log(header);
   response.askWithCard(response_text, header, response_text);
 
+};
+
+var handleStopGameRequest = function(intent, session, response){
+  console.log("Inside handleStopGameRequest");
+  var response_text = "Thank you for playing Drink Master.  I hope you had a most excellent time!";
+  var header = 'Goodbye and Party On!';
+  response.tellWithCard(response_text, header, response_text);
 }
 
 //*****************************************************************
@@ -287,7 +312,7 @@ CircleOfDeath.prototype.eventHandlers.onLaunch = function(launchRequest, session
 
   var reprompt = 'Which game would you like to play?';
 
-
+  session = prepareSession(session);
   response.ask(speech_output, reprompt);
   // response.ask(response_text, reprompt);
   // 
@@ -315,8 +340,11 @@ CircleOfDeath.prototype.intentHandlers = {
   StartDrinkMaster: function(intent, session, response){
     handleStartDrinkMasterRequest(intent, session, response);
   },
+  StopGame: function(intent,session, response){
+    handleStopGameRequest(intent, session, response);
+  },
   HelpIntent: function(intent, session, response){
-    var speechOutput = 'Once the game is started, players take turns saying "draw a card".';
+    var speechOutput = 'Drink Master is a series of interactive drinking games.  Saying "Drink Master Start" will begin the game selection process.';
     response.ask(speechOutput);
   }
 };

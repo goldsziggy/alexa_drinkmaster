@@ -67,6 +67,7 @@ var prepareSession = function(session){
   session.attributes.current_saying = '';
   session.attributes.deck = [];
   session.attributes.current_card = {};
+  session.attributes.last_response = '';
   return session;
 }
 
@@ -126,8 +127,13 @@ var handleStartGameRequest = function(intent, session, response){
         console.log('custom init function not found');
       }
     }
-  } 
+  } else if(intent.slots.start.value !== 'undefined'){
+    handleStartDrinkMasterRequest(intent, session, response);
+    return ;
+  }
   // console.log(session);
+  session.attributes.last_response = response_text;
+  session.attributes.last_header = header;
   response.askWithCard(response_text, header, response_text);
 };
 
@@ -166,7 +172,8 @@ var handleDrawCardRequest = function(intent, session, response){
   
 
   response.shouldEndSession = false;
-
+  session.attributes.last_response = response_text;
+  session.attributes.last_header = header;
   response.askWithCard(response_text, header, response_text)
 };
 
@@ -190,10 +197,15 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
       speech: response_text,
       type: AlexaSkill.speechOutputType.SSML
   };
+  var header = "DrinkMaster: Game Selection";
+
   session = prepareSession(session);
+
+  session.attributes.last_response = speech_output;
+  session.attributes.last_header = header;
   // response.tell(speech_output, speech_output);
   // response.askWithCard(response_text, "DrinkMaster: Game Selection", response_text);
-  response.askWithCard(speech_output, "DrinkMaster: Game Selection", speech_output);
+  response.askWithCard(speech_output, header, speech_output);
 };
 
 var handleAdvanceGameRequest = function(intent, session, response){
@@ -214,6 +226,8 @@ var handleAdvanceGameRequest = function(intent, session, response){
     default:
       response_text = 'Invalid request.  Please ask Drink Master to start or restart';
       header = 'Drink Master Error';
+      session.attributes.last_response = response_text;
+      session.attributes.last_header = header;
       response.askWithCard(response_text, header, response_text);
   }
 }
@@ -222,23 +236,30 @@ var handleRepeatRequest = function(intent, session, response){
   console.log('Inside handleAdvanceGameRequest');
   var response_text = '';
   var header = '';
-  switch(session.attributes.game){
-    case 'Circle Of Death':
-      response_text = session.attributes.current_card.response + ". Would you like to draw the next card?";
-      header = session.attributes.current_card.card_title;
-      break;
-    case 'Never Have I Ever':
-      response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
-      header = "Never Have I Ever";
-      break;
-    case 'Most Likely':
-      response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
-      header = "Most Likely";
-      break;
-    default:
-      response_text = 'Invalid request.  Please ask Drink Master to start or restart';
-      header = 'Drink Master Error';
+
+  if(session.attributes.last_response && session.attributes.last_header){
+    header = session.attributes.last_header;
+    response_text = session.attributes.last_response;
+  } else{
+    response_text = 'Invalid request.  Please ask Drink Master to start or restart';
+    header = 'Drink Master Error';
   }
+  // switch(session.attributes.game){
+  //   case 'Circle Of Death':
+  //     response_text = session.attributes.current_card.response + ". Would you like to draw the next card?";
+  //     header = session.attributes.current_card.card_title;
+  //     break;
+  //   case 'Never Have I Ever':
+  //     response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
+  //     header = "Never Have I Ever";
+  //     break;
+  //   case 'Most Likely':
+  //     response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
+  //     header = "Most Likely";
+  //     break;
+  //   default:
+      
+  // }
   response.askWithCard(response_text, header, response_text);
 }
 
@@ -262,8 +283,9 @@ var handleNextSayingRequest = function(intent, session, response){
       response_text = 'Invalid request.  Please ask Drink Master to start or restart';
       header = 'Drink Master Error';
   }
-  console.log(response_text);
-  console.log(header);
+
+  session.attributes.last_response = response_text;
+  session.attributes.last_header = header;
   response.askWithCard(response_text, header, response_text);
 
 };
@@ -298,6 +320,7 @@ CircleOfDeath.prototype.eventHandlers.onSessionStarted = function(sessionStarted
 //Boilerplate code....
 CircleOfDeath.prototype.eventHandlers.onLaunch = function(launchRequest, session, response){
   // This is when they launch the skill but don't specify what they want.
+  var header = "DrinkMaster: Game Selection";
   var game_text = games.map(function(element){
     return element.game;
   }).join(' <break time="0.4s" /> ');
@@ -313,7 +336,10 @@ CircleOfDeath.prototype.eventHandlers.onLaunch = function(launchRequest, session
   var reprompt = 'Which game would you like to play?';
 
   session = prepareSession(session);
-  response.ask(speech_output, reprompt);
+  session.attributes.last_response = speech_output;
+  session.attributes.last_header = header;
+  // response.ask(speech_output, reprompt);
+  response.askWithCard(speech_output, header, speech_output);
   // response.ask(response_text, reprompt);
   // 
 

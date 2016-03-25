@@ -1,13 +1,14 @@
 'use strict';
+/* jshint node: true */
 require('dotenv').config();
 
 /**
 * @ TODO make all switch statements use fuzzy
 */
-var http       = require('https')
-  , fuzzy      = require('fuzzy')
-  , AlexaSkill = require('./AlexaSkill')
-  , APP_ID     = process.env.APP_ID;
+var http       = require('https');
+var fuzzy      = require('fuzzy');
+var AlexaSkill = require('./AlexaSkill');
+var APP_ID     = process.env.APP_ID;
 
 //Define base cards
 var circle_of_death_cards = require('./lib/circle_of_death');
@@ -17,10 +18,10 @@ var most_likely_sayings = require('./lib/most_likely');
 
 // Define fuzzy_search_options for HabitTasks and intent-slots
 var fuzzy_game_search_options = {
-  pre: '<'
-  , post: '>'
-  , extract: function(el) { return el.game; }
-}
+  pre: '<',
+  post: '>',
+  extract: function(el) { return el.game; }
+};
 
 //*****************************************************************
 // Begin global function section - @todo abstract to it's own file
@@ -31,12 +32,12 @@ global.startCircleOfDeath = function (session){
   session.attributes.deck = deck;
   session.attributes.game = 'Circle Of Death';
   return session;
-}
+};
 
 global.startNeverHaveIEver = function(session){
   session.attributes.game = 'Never Have I Ever';
   var start_index = Math.floor(Math.random()*never_have_i_ever_sayings.length);
-  var arr = []
+  var arr = [];
   if(start_index > never_have_i_ever_sayings.length - 100 )
     start_index = start_index - 100;
   for(var i=0;i < 100; i++){
@@ -44,13 +45,13 @@ global.startNeverHaveIEver = function(session){
   }
   session.attributes.sayings = arr;
   return session;
-}
+};
 
 global.startMostLikely = function(session){
   session.attributes.game = 'Most Likely';
   session.attributes.sayings = most_likely_sayings;
   return session;
-}
+};
 
 
 //*****************************************************************
@@ -69,7 +70,7 @@ var prepareSession = function(session){
   session.attributes.current_card = {};
   session.attributes.last_response = '';
   return session;
-}
+};
 
 var drawCard = function(session){
   console.log('inside drawCard');
@@ -78,7 +79,7 @@ var drawCard = function(session){
   session.attributes.current_card = card;
   session.attributes.deck.splice(picked_card, 1);
   return session;
-}
+};
 
 var pickSaying = function(session){
   console.log('inside pickSaying');
@@ -87,13 +88,13 @@ var pickSaying = function(session){
   session.attributes.current_saying = saying;
   session.attributes.sayings.splice(picked_saying, 1);
   return session;
-}
+};
 
 var isCircleOfDeathExplosion = function(session){
   console.log('inside isCircleOfDeathExplosion');
   var num = Math.random();
   return (num < 1/session.attributes.deck.length * 3);
-}
+};
 
 
 //*****************************************************************
@@ -154,7 +155,7 @@ var handleDrawCardRequest = function(intent, session, response){
         session = drawCard(session);
         if(isCircleOfDeathExplosion(session)){
           response_text = "Somebody just popped to beer!  Current player must finish a new beer!  You can either tell drink master to start a new game or continue drawing cards.";
-          header = 'Current player looses!'
+          header = 'Current player looses!';
         } else{
           response_text = session.attributes.current_card.response + appended_response;
           header = session.attributes.current_card.card_title;  
@@ -174,7 +175,7 @@ var handleDrawCardRequest = function(intent, session, response){
   response.shouldEndSession = false;
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, header, response_text)
+  response.askWithCard(response_text, header, response_text);
 };
 
 /**
@@ -230,7 +231,7 @@ var handleAdvanceGameRequest = function(intent, session, response){
       session.attributes.last_header = header;
       response.askWithCard(response_text, header, response_text);
   }
-}
+};
 
 var handleRepeatRequest = function(intent, session, response){
   console.log('Inside handleAdvanceGameRequest');
@@ -261,7 +262,7 @@ var handleRepeatRequest = function(intent, session, response){
       
   // }
   response.askWithCard(response_text, header, response_text);
-}
+};
 
 var handleNextSayingRequest = function(intent, session, response){
   console.log('Inside handleNextSayingRequest');
@@ -295,7 +296,7 @@ var handleStopGameRequest = function(intent, session, response){
   var response_text = "Thank you for playing Drink Master.  I hope you had a most excellent time!";
   var header = 'Goodbye and Party On!';
   response.tellWithCard(response_text, header, response_text);
-}
+};
 
 //*****************************************************************
 // End Request Handlers
@@ -313,8 +314,7 @@ CircleOfDeath.prototype.constructor = CircleOfDeath;
 //Boilerplate code....
 CircleOfDeath.prototype.eventHandlers.onSessionStarted = function(sessionStartedRequest, session){
   // What happens when the session starts? Optional
-  console.log("onSessionStarted requestId: " + sessionStartedRequest.requestId
-      + ", sessionId: " + session.sessionId);
+  console.log("onSessionStarted requestId: " + sessionStartedRequest.requestId + ", sessionId: " + session.sessionId);
 };
 
 //Boilerplate code....
@@ -343,8 +343,7 @@ CircleOfDeath.prototype.eventHandlers.onLaunch = function(launchRequest, session
   // response.ask(response_text, reprompt);
   // 
 
-  console.log("onLaunch requestId: " + launchRequest.requestId
-      + ", sessionId: " + session.sessionId);
+  console.log("onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
 };
 
 //Boilerplate code....

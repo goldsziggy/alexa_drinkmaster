@@ -77,7 +77,7 @@ var handleStartGameRequest = function(intent, session, response){
   if(typeof intent.slots.game.value !== 'undefined'){
     var results = fuzzy.filter(intent.slots.game.value, games, fuzzy_game_search_options);
     if(results.length > 0 && results[0].score >= 12){
-      session = Util.prepareSession(session);
+      Util.prepareSession(session);
       header = results[0].original.game;
       response_text = "You chose " + results[0].original.game + ". " + results[0].original.about_text;
       response_text += ". " + results[0].original.start_instructions;
@@ -100,20 +100,20 @@ var handleStartGameRequest = function(intent, session, response){
 };
 
 /**
-* This function is the entrypoint for Util.drawCard Intent. 
+* This function is the entrypoint for drawCard Intent. 
 * - checks to make sure there is a deck
 * - draws a card from the deck
 * - prompts user if they want another card
 */
 var handleDrawCardRequest = function(intent, session, response){
-  console.log('Inside handleUtil.drawCardRequest');
+  console.log('Inside handleDrawCardRequest');
   var response_text = '';
   var header = '';
   var appended_response = "  Would you like to draw the next card?";
   switch(session.attributes.game){
     case 'Circle Of Death':
       if(typeof session.attributes.deck !== 'undefined' && session.attributes.deck.length > 0){
-        session = Util.drawCard(session);
+        Util.drawCard(session);
         if(Util.isCircleOfDeathExplosion(session)){
           response_text = "Somebody just popped to beer!  Current player must finish a new beer!  You can either tell drink master to start a new game or continue drawing cards.";
           header = 'Current player looses!';
@@ -161,7 +161,7 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
   };
   var header = "DrinkMaster: Game Selection";
 
-  session = Util.prepareSession(session);
+  Util.prepareSession(session);
 
   session.attributes.last_response = speech_output;
   session.attributes.last_header = header;
@@ -232,12 +232,12 @@ var handleNextSayingRequest = function(intent, session, response){
 
   switch(session.attributes.game){
     case 'Never Have I Ever':
-      session = Util.pickSaying(session);
+      Util.pickSaying(session);
       response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
       header = 'Never Have I Ever...';
       break;
     case 'Most Likely':
-      session = Util.pickSaying(session);
+      Util.pickSaying(session);
       response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
       header = 'Most Likely...';
       break;
@@ -296,7 +296,7 @@ CircleOfDeath.prototype.eventHandlers.onLaunch = function(launchRequest, session
 
   var reprompt = 'Which game would you like to play?';
 
-  session = Util.prepareSession(session);
+  Util.prepareSession(session);
   session.attributes.last_response = speech_output;
   session.attributes.last_header = header;
   // response.ask(speech_output, reprompt);

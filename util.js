@@ -2,7 +2,7 @@
 * @Author: Matthew Zygowicz
 * @Date:   2016-03-28 13:12:07
 * @Last Modified by:   Matthew Zygowicz
-* @Last Modified time: 2016-03-28 13:19:04
+* @Last Modified time: 2016-03-29 12:37:18
 */
 /* jshint node: true */
 'use strict';
@@ -22,7 +22,6 @@ exports.prepareSession = function(session){
   session.attributes.deck = [];
   session.attributes.current_card = {};
   session.attributes.last_response = '';
-  return session;
 };
 
 exports.drawCard = function(session){
@@ -31,7 +30,6 @@ exports.drawCard = function(session){
   var card = session.attributes.deck[picked_card];
   session.attributes.current_card = card;
   session.attributes.deck.splice(picked_card, 1);
-  return session;
 };
 
 exports.pickSaying = function(session){
@@ -40,7 +38,6 @@ exports.pickSaying = function(session){
   var saying = session.attributes.sayings[picked_saying];
   session.attributes.current_saying = saying;
   session.attributes.sayings.splice(picked_saying, 1);
-  return session;
 };
 
 exports.isCircleOfDeathExplosion = function(session){

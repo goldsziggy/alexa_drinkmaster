@@ -2,7 +2,7 @@
  * @Author: Matthew Zygowicz
  * @Date:   2016-03-25 12:33:28
  * @Last Modified by:   Matthew Zygowicz
- * @Last Modified time: 2016-03-29 12:36:32
+ * @Last Modified time: 2016-03-29 12:38:46
  */
 /* jshint node: true */
 /* jshint jasmine: true */
@@ -68,7 +68,7 @@ describe("This utiltiy functions", function() {
             session.attributes = {};
             var saying = most_likely_sayings[1];
             session.attributes.sayings = [saying];
-            session = Util.pickSaying(session);
+            Util.pickSaying(session);
             expect(session.attributes.current_saying).toEqual(saying);
         });
 

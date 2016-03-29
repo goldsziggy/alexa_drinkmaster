@@ -2,7 +2,7 @@
  * @Author: Matthew Zygowicz
  * @Date:   2016-03-25 12:33:28
  * @Last Modified by:   Matthew Zygowicz
- * @Last Modified time: 2016-03-29 12:38:46
+ * @Last Modified time: 2016-03-29 12:49:36
  */
 /* jshint node: true */
 /* jshint jasmine: true */
@@ -80,6 +80,33 @@ describe("This utiltiy functions", function() {
             session.attributes.sayings = most_likely_sayings.slice(0);
             Util.pickSaying(session);
             expect(session.attributes.sayings.length).toEqual(most_likely_sayings.length-1);
+        });
+    });
+    /**
+     * This test is kinda weak....
+     */
+    describe('isCircleOfDeathExplosion', function(){
+        it('should explode or run out of cards', function(){
+            var did_break = false;
+            var session = {};
+            session.attributes = {};
+            session.attributes.deck = circle_of_death_cards;
+
+            while(session.attributes.deck.length > 0){
+                if(Util.isCircleOfDeathExplosion(session)){
+                    did_break = true;
+                    break;
+                }
+                Util.drawCard(session);
+            }
+            if(did_break){
+                // expect(session.attributes.deck.length).
+                expect(session.attributes.deck.length >= 0).toBeTruthy();
+                expect(session.attributes.deck.length).toBeGreaterThan(-1);
+            }
+            else
+                expect(session.attributes.deck.length).toEqual(0);
+
         });
     });
 });

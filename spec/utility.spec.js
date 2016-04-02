@@ -2,13 +2,13 @@
  * @Author: Matthew Zygowicz
  * @Date:   2016-03-25 12:33:28
  * @Last Modified by:   Matthew Zygowicz
- * @Last Modified time: 2016-03-29 12:49:36
+ * @Last Modified time: 2016-03-30 06:20:09
  */
 /* jshint node: true */
 /* jshint jasmine: true */
 
 'use strict';
-var Util = require('../util');
+var Util = require('../src/util');
 var circle_of_death_cards = require('../lib/circle_of_death');
 var most_likely_sayings = require('../lib/most_likely');
 

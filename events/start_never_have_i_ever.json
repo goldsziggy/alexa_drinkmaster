@@ -1,0 +1,30 @@
+{
+  "session": {
+    "sessionId": "",
+    "application": {
+      "applicationId": ""
+    },
+    "user": {
+      "userId": ""
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.c5271040-3a54-43e1-9a01-8754d679575b",
+    "timestamp": "2016-03-13T15:17:41Z",
+    "intent": {
+      "name": "StartGame",
+      "slots": {
+        "game": {
+          "name": "game",
+          "value": "never have I ever"
+        },
+        "start": {
+          "name": "start",
+          "value": "start"
+        }
+      }
+    }
+  }
+}

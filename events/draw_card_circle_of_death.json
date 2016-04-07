@@ -1,0 +1,286 @@
+{
+  "session": {
+    "sessionId": "",
+    "application": {
+      "applicationId": ""
+    },
+    "attributes": {
+      "game": "Circle Of Death",
+      "deck": [
+        {
+          "card": 1,
+          "card_title": "Ace: Rule",
+          "response": "You drew an Ace! Ace is rule, set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 2,
+          "card_title": "2: Give 2",
+          "response": "You drew a two!  Give out two drinks!"
+        },
+        {
+          "card": 3,
+          "card_title": "3: Take 3",
+          "response": "You drew a three! Take three drinks!"
+        },
+        {
+          "card": 4,
+          "card_title": "4: Whores (women drink)!",
+          "response": "You drew a four! Four is whores, all women drink!"
+        },
+        {
+          "card": 5,
+          "card_title": "5: Never Have I Ever",
+          "response": "You drew a five!   Everbody put three fingers up, and play Never Have I Ever!"
+        },
+        {
+          "card": 6,
+          "card_title": "6: Dicks (men drink)",
+          "response": "You drew a six!  Six is dicks, all men drink!"
+        },
+        {
+          "card": 7,
+          "card_title": "7: Heaven",
+          "response": "You drew a seven!  Seven is heaven, last player to point to the heaven drinks!"
+        },
+        {
+          "card": 8,
+          "card_title": "8: social",
+          "response": "You drew an eight!  Eight is social, everybody drinks!"
+        },
+        {
+          "card": 9,
+          "card_title": "9: Bust a rhyme",
+          "response": "You drew a nine! Nine is bust a rhyme, the player who draws the card says a phrase and each person to the left says a phrase that rhymes until one player breaks the rhyme and drinks"
+        },
+        {
+          "card": 10,
+          "card_title": "10: Categories",
+          "response": "You drew a ten! Ten is categories, you set the category then the player to the left has 5 seconds to say something within that category.  This goes till someone messes up."
+        },
+        {
+          "card": 11,
+          "card_title": "Jack: Waterfall",
+          "response": "You Drew a Jack! Start a waterfall. Each player starts drinking their beverage at the same time as the person to their left. No player can stop drinking until the player before them stops."
+        },
+        {
+          "card": 12,
+          "card_title": "Queen: Questions",
+          "response": "You drew a queen!  Queen is questions! Anytime anyone answers your questions they drink! Be warned, if they don't you drink!"
+        },
+        {
+          "card": 13,
+          "card_title": "King: Drinking Rule",
+          "response": "You drew a King!  King is drinking rule. Set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 1,
+          "card_title": "Ace: Rule",
+          "response": "You drew an Ace! Ace is rule, set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 2,
+          "card_title": "2: Give 2",
+          "response": "You drew a two!  Give out two drinks!"
+        },
+        {
+          "card": 3,
+          "card_title": "3: Take 3",
+          "response": "You drew a three! Take three drinks!"
+        },
+        {
+          "card": 4,
+          "card_title": "4: Whores (women drink)!",
+          "response": "You drew a four! Four is whores, all women drink!"
+        },
+        {
+          "card": 5,
+          "card_title": "5: Never Have I Ever",
+          "response": "You drew a five!   Everbody put three fingers up, and play Never Have I Ever!"
+        },
+        {
+          "card": 6,
+          "card_title": "6: Dicks (men drink)",
+          "response": "You drew a six!  Six is dicks, all men drink!"
+        },
+        {
+          "card": 7,
+          "card_title": "7: Heaven",
+          "response": "You drew a seven!  Seven is heaven, last player to point to the heaven drinks!"
+        },
+        {
+          "card": 8,
+          "card_title": "8: social",
+          "response": "You drew an eight!  Eight is social, everybody drinks!"
+        },
+        {
+          "card": 9,
+          "card_title": "9: Bust a rhyme",
+          "response": "You drew a nine! Nine is bust a rhyme, the player who draws the card says a phrase and each person to the left says a phrase that rhymes until one player breaks the rhyme and drinks"
+        },
+        {
+          "card": 10,
+          "card_title": "10: Categories",
+          "response": "You drew a ten! Ten is categories, you set the category then the player to the left has 5 seconds to say something within that category.  This goes till someone messes up."
+        },
+        {
+          "card": 11,
+          "card_title": "Jack: Waterfall",
+          "response": "You Drew a Jack! Start a waterfall. Each player starts drinking their beverage at the same time as the person to their left. No player can stop drinking until the player before them stops."
+        },
+        {
+          "card": 12,
+          "card_title": "Queen: Questions",
+          "response": "You drew a queen!  Queen is questions! Anytime anyone answers your questions they drink! Be warned, if they respond with a question you drink!"
+        },
+        {
+          "card": 13,
+          "card_title": "King: Drinking Rule",
+          "response": "You drew a King!  King is drinking rule. Set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 1,
+          "card_title": "Ace: Rule",
+          "response": "You drew an Ace! Ace is rule, set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 2,
+          "card_title": "2: Give 2",
+          "response": "You drew a two!  Give out two drinks!"
+        },
+        {
+          "card": 3,
+          "card_title": "3: Take 3",
+          "response": "You drew a three! Take three drinks!"
+        },
+        {
+          "card": 4,
+          "card_title": "4: Whores (women drink)!",
+          "response": "You drew a four! Four is whores, all women drink!"
+        },
+        {
+          "card": 5,
+          "card_title": "5: Never Have I Ever",
+          "response": "You drew a five!   Everbody put three fingers up, and play Never Have I Ever!"
+        },
+        {
+          "card": 6,
+          "card_title": "6: Dicks (men drink)",
+          "response": "You drew a six!  Six is dicks, all men drink!"
+        },
+        {
+          "card": 7,
+          "card_title": "7: Heaven",
+          "response": "You drew a seven!  Seven is heaven, last player to point to the heaven drinks!"
+        },
+        {
+          "card": 8,
+          "card_title": "8: social",
+          "response": "You drew an eight!  Eight is social, everybody drinks!"
+        },
+        {
+          "card": 9,
+          "card_title": "9: Bust a rhyme",
+          "response": "You drew a nine! Nine is bust a rhyme, the player who draws the card says a phrase and each person to the left says a phrase that rhymes until one player breaks the rhyme and drinks"
+        },
+        {
+          "card": 10,
+          "card_title": "10: Categories",
+          "response": "You drew a ten! Ten is categories, you set the category then the player to the left has 5 seconds to say something within that category.  This goes till someone messes up."
+        },
+        {
+          "card": 11,
+          "card_title": "Jack: Waterfall",
+          "response": "You Drew a Jack! Start a waterfall. Each player starts drinking their beverage at the same time as the person to their left. No player can stop drinking until the player before them stops."
+        },
+        {
+          "card": 12,
+          "card_title": "Queen: Questions",
+          "response": "You drew a queen!  Queen is questions! Anytime anyone answers your questions they drink! Be warned, if they don't you drink!"
+        },
+        {
+          "card": 13,
+          "card_title": "King: Drinking Rule",
+          "response": "You drew a King!  King is drinking rule. Set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 1,
+          "card_title": "Ace: Rule",
+          "response": "You drew an Ace! Ace is rule, set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        },
+        {
+          "card": 2,
+          "card_title": "2: Give 2",
+          "response": "You drew a two!  Give out two drinks!"
+        },
+        {
+          "card": 3,
+          "card_title": "3: Take 3",
+          "response": "You drew a three! Take three drinks!"
+        },
+        {
+          "card": 4,
+          "card_title": "4: Whores (women drink)!",
+          "response": "You drew a four! Four is whores, all women drink!"
+        },
+        {
+          "card": 5,
+          "card_title": "5: Never Have I Ever",
+          "response": "You drew a five!   Everbody put three fingers up, and play Never Have I Ever!"
+        },
+        {
+          "card": 6,
+          "card_title": "6: Dicks (men drink)",
+          "response": "You drew a six!  Six is dicks, all men drink!"
+        },
+        {
+          "card": 7,
+          "card_title": "7: Heaven",
+          "response": "You drew a seven!  Seven is heaven, last player to point to the heaven drinks!"
+        },
+        {
+          "card": 8,
+          "card_title": "8: social",
+          "response": "You drew an eight!  Eight is social, everybody drinks!"
+        },
+        {
+          "card": 9,
+          "card_title": "9: Bust a rhyme",
+          "response": "You drew a nine! Nine is bust a rhyme, the player who draws the card says a phrase and each person to the left says a phrase that rhymes until one player breaks the rhyme and drinks"
+        },
+        {
+          "card": 10,
+          "card_title": "10: Categories",
+          "response": "You drew a ten! Ten is categories, you set the category then the player to the left has 5 seconds to say something within that category.  This goes till someone messes up."
+        },
+        {
+          "card": 11,
+          "card_title": "Jack: Waterfall",
+          "response": "You Drew a Jack! Start a waterfall. Each player starts drinking their beverage at the same time as the person to their left. No player can stop drinking until the player before them stops."
+        },
+        {
+          "card": 12,
+          "card_title": "Queen: Questions",
+          "response": "You drew a queen!  Queen is questions! Anytime anyone answers your questions they drink! Be warned, if they don't you drink!"
+        },
+        {
+          "card": 13,
+          "card_title": "King: Drinking Rule",
+          "response": "You drew a King!  King is drinking rule. Set a rule to be followed, e.g. drink with your left hand, tap your head before you drink, don't use first names, etc."
+        }
+      ]
+    },
+    "user": {
+      "userId": ""
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.c5271040-3a54-43e1-9a01-8754d679575b",
+    "timestamp": "2016-03-13T15:17:41Z",
+    "intent": {
+      "name": "DrawCard",
+      "slots": {}
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "session": {
+    "sessionId": "",
+    "application": {
+      "applicationId": ""
+    },
+    "attributes": {},
+    "user": {
+      "userId": ""
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.c151cde6-f772-4392-9889-3906e55eaa00",
+    "timestamp": "2016-03-13T15:12:34Z",
+    "intent": {
+      "name": "StartGame",
+      "slots": {
+        "start": {
+          "name": "start"
+        }
+      }
+    }
+  }
+}

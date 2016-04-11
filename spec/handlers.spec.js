@@ -2,7 +2,7 @@
 * @Author: Matthew Zygowicz
 * @Date:   2016-03-30 07:13:51
 * @Last Modified by:   Matthew Zygowicz
-* @Last Modified time: 2016-04-04 06:55:11
+* @Last Modified time: 2016-04-07 07:01:22
 */
 /* jshint node: true */
 'use strict';
@@ -14,6 +14,7 @@ var Response = require('../mock_response');
 
 var mock_context = {
     succeed: function(response){
+        this.response = response;
         console.log('Inside mock_context succeed');
         console.log('response: ' + response);
     }
@@ -131,15 +132,110 @@ describe('The handler functions', function() {
         });
 
         it('should advance Most Likely', function() {
-            
+            var event = Event.next_most_likely();
+            var session = event.session;
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleAdvanceGameRequest(intent, session, response);
+            expect(session.attributes.sayings.length).toEqual(74);
+            expect(session.attributes.current_saying.length).toBeGreaterThan(1);
         });
 
         it('should react when nothing is selected', function() {
-            
+            var event = Event.advance_game_with_no_game();
+            var session = event.session;
+            session.attributes = {}; // by default, Amazon seems to populate this.
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleAdvanceGameRequest(intent, session, response);
+            expect(session.attributes.last_response).toEqual('Invalid request.  Please ask Drink Master to start or restart');
+            expect(session.attributes.last_header).toEqual('Drink Master Error');
         });
     });
 
     describe('handleRepeatRequest', function() {
-        
+        it('should repeat an advance game request', function() {
+            var event = Event.next_never_have_i_ever();
+            var session = event.session;
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleAdvanceGameRequest(intent, session, response);
+            var last_response = session.attributes.last_response;
+            var last_header = session.attributes.last_header;
+
+            Handler.handleRepeatRequest(intent, session, response);
+            expect(session.attributes.last_response).toEqual(last_response);
+            expect(session.attributes.last_header).toEqual(last_header);
+        });
+
+        it('should repeat a game start instructions', function() {
+            var event = Event.start_circle_of_death();
+            var session = event.session;
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleStartGameRequest(intent, session, response);
+            var last_response = session.attributes.last_response;
+            var last_header = session.attributes.last_header;
+
+            Handler.handleRepeatRequest(intent, session, response);
+            expect(session.attributes.last_response).toEqual(last_response);
+            expect(session.attributes.last_header).toEqual(last_header);
+        });
+
+        it('should repeat an error', function() {
+            var event = Event.advance_game_with_no_game();
+            var session = event.session;
+            session.attributes = {};
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleAdvanceGameRequest(intent, session, response);
+            var last_response = session.attributes.last_response;
+            var last_header = session.attributes.last_header;
+
+            Handler.handleRepeatRequest(intent, session, response);
+            expect(session.attributes.last_response).toEqual(last_response);
+            expect(session.attributes.last_header).toEqual(last_header);
+        });
+    });
+
+    describe('handleNextSayingRequest', function() {
+        it('should pick the next saying', function() {
+            var event = Event.next_never_have_i_ever();
+            var session = event.session;
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleNextSayingRequest(intent, session, response);
+            expect(session.attributes.sayings.length).toEqual(99);
+            expect(session.attributes.current_saying.length).toBeGreaterThan(1);
+        });
+
+        it('should react with no game selected', function() {
+            var event = Event.start_game_request_with_no_game();
+            var session = event.session;
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleNextSayingRequest(intent, session, response);
+            expect(session.attributes.last_response).toEqual('Invalid request.  Please ask Drink Master to start or restart');
+            expect(session.attributes.last_header).toEqual('Drink Master Error');
+        });
+    });
+
+    describe('handleStopGameRequest', function() {
+        it('should stop the game', function() {
+            var event = Event.next_never_have_i_ever();
+            var session = event.session;
+            var response = new Response(mock_context, session);
+            var intent = event.request.intent;
+
+            Handler.handleStopGameRequest(intent, session, response);
+            expect(response._context.response.response.outputSpeech.text).toEqual("Thank you for playing Drink Master.  I hope you had a most excellent time!");
+        });
     });
 });

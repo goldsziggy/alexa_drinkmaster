@@ -2,7 +2,7 @@
 * @Author: Matthew Zygowicz
 * @Date:   2016-03-30 07:05:27
 * @Last Modified by:   Matthew Zygowicz
-* @Last Modified time: 2016-04-04 06:28:01
+* @Last Modified time: 2016-04-07 06:58:34
 */
 /* jshint node: true */
 'use strict';
@@ -149,7 +149,9 @@ var handleAdvanceGameRequest = function(intent, session, response){
   console.log('Inside handleAdvanceGameRequest');
   var response_text = '';
   var header = '';
+  // if(session.attributes.game){
 
+  // }
   switch(session.attributes.game){
     case 'Circle Of Death':
       handleDrawCardRequest(intent, session, response);

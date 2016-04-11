@@ -1,0 +1,22 @@
+{
+  "session": {
+    "sessionId": "",
+    "application": {
+      "applicationId": ""
+    },
+    "user": {
+      "userId": ""
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.523d1bb9-4ecf-4c08-99cf-915203b9dedd",
+    "timestamp": "2016-04-07T11:35:11Z",
+    "intent": {
+      "name": "AdvanceGame",
+      "slots": {}
+    }
+  },
+  "version": "1.0"
+}

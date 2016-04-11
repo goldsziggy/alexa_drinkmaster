@@ -2,7 +2,7 @@
 * @Author: Matthew Zygowicz
 * @Date:   2016-03-30 07:05:27
 * @Last Modified by:   Matthew Zygowicz
-* @Last Modified time: 2016-04-07 06:58:34
+* @Last Modified time: 2016-04-11 06:03:39
 */
 /* jshint node: true */
 'use strict';
@@ -46,6 +46,7 @@ var handleStartGameRequest = function(intent, session, response){
   console.log('Inside handleStartGameRequest');
   var response_text = "Either no game selected or request was not understood.";
   var header = 'No Game Specified';
+  var reprompt = "Please have Alexa tell Drink Master to start to play a game.";
 
 
   if(intent.slots.game && intent.slots.game.value ){
@@ -55,6 +56,7 @@ var handleStartGameRequest = function(intent, session, response){
       header = results[0].original.game;
       response_text = "You chose " + results[0].original.game + ". " + results[0].original.about_text;
       response_text += ". " + results[0].original.start_instructions;
+      reprompt = "Please say 'next' or 'advance' to start the game.";
       var fn = results[0].original.init_function;
 
       // Here we check if the function is set in the global namespace.
@@ -71,7 +73,7 @@ var handleStartGameRequest = function(intent, session, response){
   // console.log(session);
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, header, response_text);
+  response.askWithCard(response_text, reprompt, header, response_text);
 };
 
 /**
@@ -85,6 +87,7 @@ var handleDrawCardRequest = function(intent, session, response){
   var response_text = '';
   var header = '';
   var appended_response = "  Would you like to draw the next card?";
+  var reprompt = '';
   switch(session.attributes.game){
     case 'Circle Of Death':
       if(typeof session.attributes.deck !== 'undefined' && session.attributes.deck.length > 0){
@@ -92,18 +95,22 @@ var handleDrawCardRequest = function(intent, session, response){
         if(Util.isCircleOfDeathExplosion(session)){
           response_text = "Somebody just popped to beer!  Current player must finish a new beer!  You can either tell drink master to start a new game or continue drawing cards.";
           header = 'Current player looses!';
+          reprompt = 'To continue playing, say draw card.  Otherwise tell Drink Master to start a new game.';
         } else{
           response_text = session.attributes.current_card.response + appended_response;
+          reprompt = "The Last Card was: " + response_text;
           header = session.attributes.current_card.card_title;  
         }
         
       } else{
         response_text = 'No deck found.  Looks like your game might be over.  Please ask Drink Master to start.';
+        reprompt = response_text;
         header = 'No deck found.';
       }
       break;
     default:
       response_text = 'No game currently set.  Please ask Drink Master to start.';
+      reprompt = response_text;
       header = 'No game found';
   }
   
@@ -142,7 +149,7 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
   session.attributes.last_header = header;
   // response.tell(speech_output, speech_output);
   // response.askWithCard(response_text, "DrinkMaster: Game Selection", response_text);
-  response.askWithCard(speech_output, header, speech_output);
+  response.askWithCard(speech_output, speech_output, header, speech_output);
 };
 
 var handleAdvanceGameRequest = function(intent, session, response){
@@ -167,7 +174,7 @@ var handleAdvanceGameRequest = function(intent, session, response){
       header = 'Drink Master Error';
       session.attributes.last_response = response_text;
       session.attributes.last_header = header;
-      response.askWithCard(response_text, header, response_text);
+      response.askWithCard(response_text, response_text, header, response_text);
   }
 };
 
@@ -178,54 +185,41 @@ var handleRepeatRequest = function(intent, session, response){
 
   if(session.attributes.last_response && session.attributes.last_header){
     header = session.attributes.last_header;
-    response_text = session.attributes.last_response;
+    response_text = "The last action was: " + session.attributes.last_response;
   } else{
     response_text = 'Invalid request.  Please ask Drink Master to start or restart';
     header = 'Drink Master Error';
   }
-  // switch(session.attributes.game){
-  //   case 'Circle Of Death':
-  //     response_text = session.attributes.current_card.response + ". Would you like to draw the next card?";
-  //     header = session.attributes.current_card.card_title;
-  //     break;
-  //   case 'Never Have I Ever':
-  //     response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
-  //     header = "Never Have I Ever";
-  //     break;
-  //   case 'Most Likely':
-  //     response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
-  //     header = "Most Likely";
-  //     break;
-  //   default:
-      
-  // }
-  response.askWithCard(response_text, header, response_text);
+  response.askWithCard(response_text, response_text, header, response_text);
 };
 
 var handleNextSayingRequest = function(intent, session, response){
   console.log('Inside handleNextSayingRequest');
   var response_text = '';
   var header = '';
-
+  var reprompt = '';
   switch(session.attributes.game){
     case 'Never Have I Ever':
       Util.pickSaying(session);
       response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
+      reprompt = 'The last Never Have I Ever was: ' + response_text;
       header = 'Never Have I Ever...';
       break;
     case 'Most Likely':
       Util.pickSaying(session);
       response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
       header = 'Most Likely...';
+      reprompt = 'The last Most Likely was: ' + response_text;
       break;
     default:
       response_text = 'Invalid request.  Please ask Drink Master to start or restart';
+      reprompt = response_text;
       header = 'Drink Master Error';
   }
 
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, header, response_text);
+  response.askWithCard(response_text, reprompt, header, response_text);
 
 };
 

@@ -2,7 +2,7 @@
 * @Author: Matthew Zygowicz
 * @Date:   2016-03-30 07:05:27
 * @Last Modified by:   Matthew Zygowicz
-* @Last Modified time: 2016-04-11 06:03:39
+* @Last Modified time: 2016-04-11 06:21:24
 */
 /* jshint node: true */
 'use strict';
@@ -98,7 +98,7 @@ var handleDrawCardRequest = function(intent, session, response){
           reprompt = 'To continue playing, say draw card.  Otherwise tell Drink Master to start a new game.';
         } else{
           response_text = session.attributes.current_card.response + appended_response;
-          reprompt = "The Last Card was: " + response_text;
+          reprompt = "The Last Card was: " + session.attributes.current_card.response + ".  To continue playing say; Next, Draw Card or Advance.";
           header = session.attributes.current_card.card_title;  
         }
         
@@ -118,7 +118,7 @@ var handleDrawCardRequest = function(intent, session, response){
   response.shouldEndSession = false;
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, header, response_text);
+  response.askWithCard(response_text, reprompt, header, response_text);
 };
 
 /**
@@ -202,14 +202,14 @@ var handleNextSayingRequest = function(intent, session, response){
     case 'Never Have I Ever':
       Util.pickSaying(session);
       response_text = session.attributes.current_saying + '. Please say next for the next Never Have I Ever.';
-      reprompt = 'The last Never Have I Ever was: ' + response_text;
+      reprompt = 'The last Never Have I Ever was: ' + session.attributes.current_saying + '.  To continue playing say Next or Advance. ';
       header = 'Never Have I Ever...';
       break;
     case 'Most Likely':
       Util.pickSaying(session);
       response_text = session.attributes.current_saying + '. Please say next for the next Most Likely.';
       header = 'Most Likely...';
-      reprompt = 'The last Most Likely was: ' + response_text;
+      reprompt = 'The last Most Likely was: ' + session.attributes.current_saying + '.  To continue playing say Next or Advance. ';
       break;
     default:
       response_text = 'Invalid request.  Please ask Drink Master to start or restart';

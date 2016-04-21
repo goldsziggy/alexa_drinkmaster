@@ -1,7 +1,7 @@
 [
     {
         "game": "Circle Of Death",
-        "about_text": "Circle of death is a drinking game that closely resembles Kings, where players ask me to draw one card per turn and perform actions based on the card drawn.",
+        "about_text": "Circle of death is a drinking game that closely resembles Kings.  Players will ask me to draw one card per turn. Then players perform actions based on the card drawn.",
         "start_instructions": "To start say draw card",
         "init_function": "startCircleOfDeath"
     },

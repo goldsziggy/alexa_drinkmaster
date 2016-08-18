@@ -29,12 +29,6 @@ var fuzzy_game_search_options = {
   extract: function(el) { return el.game; }
 };
 
-//override the config file defaults for 
-process.env.AMZN_RDS_HOST = process.env.TEST_DB_HOST;
-process.env.AMZN_RDS_USER = process.env.TEST_DB_USER;
-process.env.AMZN_RDS_PASS = process.env.TEST_DB_PASS;
-process.env.AMZN_RDS_DB = process.env.TEST_DB_DB;
-
 //*****************************************************************
 //  Begin the Request Handling section 
 //*****************************************************************

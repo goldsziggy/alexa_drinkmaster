@@ -1,6 +1,8 @@
 Repeat repeat
 
 StopGame stop
+StopGame exit
+StopGame quit
 StopGame clear
 StopGame no
 
@@ -11,10 +13,14 @@ StartGame {game}
 
 StartDrinkMaster {start}
 StartDrinkMaster restart
+StartDrinkMaster start
 
 AdvanceGame next
 AdvanceGame next one
 AdvanceGame yes
+AdvanceGame sure
+AdvanceGame ok
+AdvanceGame go
 AdvanceGame ready
 
 DrawCard next card

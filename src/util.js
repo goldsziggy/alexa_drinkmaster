@@ -21,18 +21,18 @@ exports.loadState = function(intentRequest, session, response, callback){
     database : process.env.AMZN_RDS_DB
   });
   connection.connect();
-  connection.query("SELECT userId, state, MAX(timestamp) as timestamp FROM drinkmaster_state WHERE userId=?",[session.user.userId], function(err, rows, fields){
-
+  connection.query("SELECT userId, state, timestamp FROM drinkmaster_state WHERE userId=? ORDER BY timestamp DESC LIMIT 1",[session.user.userId], function(err, rows, fields){
     if(err){
+      console.log('error! ' + err);
       //restart game
       callback(intentRequest, session, response);
     } else {
-      
-
       if(rows[0].timestamp){
-        var lastUpdate = Date(rows[0].timestamp)
-        var diffInMs = Date() - lastUpdate;
+        var lastUpdate = new Date(rows[0].timestamp)
+        var current_time = new Date();
+        var diffInMs = current_time - lastUpdate;
         var diffMins = Math.round(((diffInMs % 86400000) % 3600000) / 60000); //differnce in minutes
+        console.log('diffMins: ' + diffMins);
         if(diffMins <= 10)
           callback(intentRequest, JSON.parse(rows[0].state), response)
         else
@@ -57,10 +57,15 @@ exports.saveState = function(session, cb){
     password : process.env.AMZN_RDS_PASS,
     database : process.env.AMZN_RDS_DB
   });
-  connection.connect();
+  connection.connect(function(err) {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+    }
+   
+    console.log('connected as id ' + connection.threadId);
+  });
   connection.query("INSERT INTO drinkmaster_state (userId, state) VALUES (?,?)",[session.user.userId, json], function(err, result) {
-    console.log('Inserted!');
-    console.log(result);
     cb();
     // callback(intentRequest, session, response);
   });

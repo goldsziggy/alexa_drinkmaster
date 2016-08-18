@@ -227,15 +227,25 @@ describe('The handler functions', function() {
         });
     });
 
-    describe('handleStopGameRequest', function() {
+    describe('handleStopGameRequest', function(done) {
         it('should stop the game', function() {
+            var my_context = {
+                succeed: function(response){
+                    this.response = response;
+                    console.log('Inside mock_context succeed');
+                    console.log('response: ' + response);
+                    expect(response.response.outputSpeech.text).toEqual("Thank you for playing Drink Master.  I hope you had a most excellent time!");
+                    done();
+                }
+            }
             var event = Event.next_never_have_i_ever();
             var session = event.session;
-            var response = new Response(mock_context, session);
+            var response = new Response(my_context, session);
             var intent = event.request.intent;
 
             Handler.handleStopGameRequest(intent, session, response);
-            expect(response._context.response.response.outputSpeech.text).toEqual("Thank you for playing Drink Master.  I hope you had a most excellent time!");
+            // console.log(response._context);
+            // expect(response._context.response.response.outputSpeech.text).toEqual("Thank you for playing Drink Master.  I hope you had a most excellent time!");
         });
     });
 });

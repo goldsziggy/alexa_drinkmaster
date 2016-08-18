@@ -29,8 +29,11 @@ var fuzzy_game_search_options = {
   extract: function(el) { return el.game; }
 };
 
-
-
+//override the config file defaults for 
+process.env.AMZN_RDS_HOST = process.env.TEST_DB_HOST;
+process.env.AMZN_RDS_USER = process.env.TEST_DB_USER;
+process.env.AMZN_RDS_PASS = process.env.TEST_DB_PASS;
+process.env.AMZN_RDS_DB = process.env.TEST_DB_DB;
 
 //*****************************************************************
 //  Begin the Request Handling section 
@@ -73,7 +76,8 @@ var handleStartGameRequest = function(intent, session, response){
   // console.log(session);
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, reprompt, header, response_text);
+  Util.saveState(session, function(){response.askWithCard(response_text, reprompt, header, response_text)});
+  // response.askWithCard(response_text, reprompt, header, response_text);
 };
 
 /**
@@ -118,7 +122,8 @@ var handleDrawCardRequest = function(intent, session, response){
   response.shouldEndSession = false;
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, reprompt, header, response_text);
+  Util.saveState(session, function(){response.askWithCard(response_text, reprompt, header, response_text)});
+  // response.askWithCard(response_text, reprompt, header, response_text);
 };
 
 /**
@@ -149,7 +154,8 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
   session.attributes.last_header = header;
   // response.tell(speech_output, speech_output);
   // response.askWithCard(response_text, "DrinkMaster: Game Selection", response_text);
-  response.askWithCard(speech_output, speech_output, header, speech_output);
+  Util.saveState(session, function(){response.askWithCard(speech_output, speech_output, header, response_text)});
+  // response.askWithCard(speech_output, speech_output, header, speech_output);
 };
 
 var handleAdvanceGameRequest = function(intent, session, response){
@@ -174,7 +180,8 @@ var handleAdvanceGameRequest = function(intent, session, response){
       header = 'Drink Master Error';
       session.attributes.last_response = response_text;
       session.attributes.last_header = header;
-      response.askWithCard(response_text, response_text, header, response_text);
+      Util.saveState(session, function(){response.askWithCard(response_text, response_text, header, response_text)});
+      // response.askWithCard(response_text, response_text, header, response_text);
   }
 };
 
@@ -190,7 +197,8 @@ var handleRepeatRequest = function(intent, session, response){
     response_text = 'Invalid request.  Please ask Drink Master to start or restart';
     header = 'Drink Master Error';
   }
-  response.askWithCard(response_text, response_text, header, response_text);
+  Util.saveState(session, function(){response.askWithCard(response_text, response_text, header, response_text)});
+  // response.askWithCard(response_text, response_text, header, response_text);
 };
 
 var handleNextSayingRequest = function(intent, session, response){
@@ -219,7 +227,8 @@ var handleNextSayingRequest = function(intent, session, response){
 
   session.attributes.last_response = response_text;
   session.attributes.last_header = header;
-  response.askWithCard(response_text, reprompt, header, response_text);
+  Util.saveState(session, function(){response.askWithCard(response_text, reprompt, header, response_text)});
+  // response.askWithCard(response_text, reprompt, header, response_text);
 
 };
 
@@ -227,7 +236,9 @@ var handleStopGameRequest = function(intent, session, response){
   console.log("Inside handleStopGameRequest");
   var response_text = "Thank you for playing Drink Master.  I hope you had a most excellent time!";
   var header = 'Goodbye and Party On!';
-  response.tellWithCard(response_text, header, response_text);
+  Util.prepareSession(session);
+  Util.saveState(session, function(){response.tellWithCard(response_text, header, response_text)});
+  // response.tellWithCard(response_text, header, response_text);
 };
 
 

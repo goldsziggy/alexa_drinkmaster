@@ -24,6 +24,34 @@ DrinkMaster.prototype.eventHandlers.onSessionStarted = function(sessionStartedRe
   console.log("onSessionStarted requestId: " + sessionStartedRequest.requestId + ", sessionId: " + session.sessionId);
 };
 
+//@todo - implement ES6 real super... right now it's a copy of AlexSkill logic.
+/**
+ * We override this function, to intercept all intent calls.  This will allow us
+ * to both Save and Load session to enhance user experience
+ */
+DrinkMaster.prototype.eventHandlers.onIntent = function(origRequest, origSession, origResponse){
+  var self = this;
+  var cb = function(intentRequest, session, response){
+      // ORIGINAL LOGIC
+    var intent = intentRequest.intent,
+        intentName = intentRequest.intent.name,
+        intentHandler = self.intentHandlers[intentName];
+    if (intentHandler) {
+        console.log('dispatch intent = ' + intentName);
+        intentHandler.call(self, intent, session, response);
+    } else {
+        throw 'Unsupported intent = ' + intentName;
+    }  
+  }
+  if (origSession.new){
+    Util.loadState(origRequest, origSession, origResponse, cb);
+  } else {
+      cb(origRequest, origSession, origResponse);
+    // Util.saveState(origRequest, origSession, origResponse, cb);
+  }
+  
+}
+
 //Boilerplate code....
 DrinkMaster.prototype.eventHandlers.onLaunch = function(launchRequest, session, response){
   // This is when they launch the skill but don't specify what they want.
@@ -70,6 +98,7 @@ DrinkMaster.prototype.intentHandlers = {
     Handler.handleAdvanceGameRequest(intent, session, response);
   },
   StartDrinkMaster: function(intent, session, response){
+    console.log('I am here!');
     Handler.handleStartDrinkMasterRequest(intent, session, response);
   },
   StopGame: function(intent,session, response){

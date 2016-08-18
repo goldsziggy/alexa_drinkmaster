@@ -17,11 +17,14 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "jasmine-node": "^1.14.5",
+    "mysql": "^2.11.1",
     "request": "^2.69.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "./node_modules/jasmine-node/bin/jasmine-node spec/"
+    "deploy": "grunt deploy",
+    "test": "./node_modules/jasmine-node/bin/jasmine-node spec/",
+    "sandbox": "node test.js"
   },
   "author": "Matthew Zygowicz",
   "license": "ISC",

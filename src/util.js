@@ -6,10 +6,68 @@
 */
 /* jshint node: true */
 'use strict';
+require('dotenv').config();
+var mysql      = require('mysql');
 
 //*****************************************************************
 // Begin utlity function section 
 //*****************************************************************
+exports.loadState = function(intentRequest, session, response, callback){
+  console.log('Inside loadState()');
+  var connection = mysql.createConnection({
+    host     : process.env.AMZN_RDS_HOST,
+    user     : process.env.AMZN_RDS_USER,
+    password : process.env.AMZN_RDS_PASS,
+    database : process.env.AMZN_RDS_DB
+  });
+  connection.connect();
+  connection.query("SELECT userId, state, MAX(timestamp) as timestamp FROM drinkmaster_state WHERE userId=?",[session.user.userId], function(err, rows, fields){
+
+    if(err){
+      //restart game
+      callback(intentRequest, session, response);
+    } else {
+      
+
+      if(rows[0].timestamp){
+        var lastUpdate = Date(rows[0].timestamp)
+        var diffInMs = Date() - lastUpdate;
+        var diffMins = Math.round(((diffInMs % 86400000) % 3600000) / 60000); //differnce in minutes
+        if(diffMins <= 10)
+          callback(intentRequest, JSON.parse(rows[0].state), response)
+        else
+          callback(intentRequest, session, response)
+      } else{
+        callback(intentRequest, session, response);
+      }
+
+    }
+  });
+  connection.end(); 
+}
+
+// exports.saveState = function(intentRequest, session, response, callback){
+exports.saveState = function(session, cb){
+  console.log('Inside saveState()');
+  var json = JSON.stringify(session);
+
+  var connection = mysql.createConnection({
+    host     : process.env.AMZN_RDS_HOST,
+    user     : process.env.AMZN_RDS_USER,
+    password : process.env.AMZN_RDS_PASS,
+    database : process.env.AMZN_RDS_DB
+  });
+  connection.connect();
+  connection.query("INSERT INTO drinkmaster_state (userId, state) VALUES (?,?)",[session.user.userId, json], function(err, result) {
+    console.log('Inserted!');
+    console.log(result);
+    cb();
+    // callback(intentRequest, session, response);
+  });
+  connection.end();  
+  
+}
+
 
 /**
 * This function will prepare/clear the session.

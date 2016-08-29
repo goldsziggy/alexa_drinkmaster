@@ -141,6 +141,10 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
       type: AlexaSkill.speechOutputType.SSML
   };
   var header = "DrinkMaster: Game Selection";
+  var card_content = 'Available Games: \n ';
+  card_content += games.map(function (element){
+    return element.game;
+  }).join(' \n ');
 
   Util.prepareSession(session);
 
@@ -148,7 +152,7 @@ var handleStartDrinkMasterRequest = function(intent, session, response){
   session.attributes.last_header = header;
   // response.tell(speech_output, speech_output);
   // response.askWithCard(response_text, "DrinkMaster: Game Selection", response_text);
-  Util.saveState(session, function(){response.askWithCard(speech_output, speech_output, header, response_text)});
+  Util.saveState(session, function(){response.askWithCard(speech_output, speech_output, header,card_content)});
   // response.askWithCard(speech_output, speech_output, header, speech_output);
 };
 
